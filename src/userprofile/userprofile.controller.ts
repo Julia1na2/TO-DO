@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { UserprofileService } from './userprofile.service';
 import { CreateUserprofileDto } from './dto/create-userprofile.dto';
 import { UpdateUserprofileDto } from './dto/update-userprofile.dto';
+import { Prisma } from '@prisma/client';
 
 @Controller('userprofile')
 export class UserprofileController {
@@ -19,16 +20,16 @@ export class UserprofileController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.userprofileService.findOne(+id);
+    return this.userprofileService.findOne({ id: +id });
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserprofileDto: UpdateUserprofileDto) {
-    return this.userprofileService.update(+id, updateUserprofileDto);
+    return this.userprofileService.update({ id: +id }, updateUserprofileDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.userprofileService.remove(+id);
+    return this.userprofileService.remove({ id: +id });
   }
 }

@@ -1,26 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserprofileDto } from './dto/create-userprofile.dto';
 import { UpdateUserprofileDto } from './dto/update-userprofile.dto';
+import { Prisma } from '@prisma/client';
+import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class UserprofileService {
-  create(createUserprofileDto: CreateUserprofileDto) {
-    return 'This action adds a new userprofile';
+  constructor(private prisma: PrismaService){}
+
+  create(createUserprofileDto: Prisma.UserprofileUncheckedCreateInput) {
+    return this.prisma.userprofile.create({
+      data: createUserprofileDto,
+    });
   }
 
   findAll() {
-    return `This action returns all userprofile`;
+    return this.prisma.userprofile.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userprofile`;
+  findOne(userProfileWhereUniqueInput: Prisma.UserprofileWhereUniqueInput) {
+    return this.prisma.userprofile.findUnique({
+      where: userProfileWhereUniqueInput,
+    });
   }
 
-  update(id: number, updateUserprofileDto: UpdateUserprofileDto) {
-    return `This action updates a #${id} userprofile`;
+  update(where: Prisma.UserprofileWhereUniqueInput, data: Prisma.UserprofileUpdateInput) {
+    return this.prisma.userprofile.update({
+      data,
+      where,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userprofile`;
+  remove(where: Prisma.UserprofileWhereUniqueInput) {
+    return this.prisma.userprofile.delete({
+      where,
+    });
   }
 }

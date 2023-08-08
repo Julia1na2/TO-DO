@@ -11,24 +11,27 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  name        String?
-  password    String?
-  userProfile Userprofile?
-  dateCreated DateTime?    @default(now())
-  dateUpdated DateTime?    @updatedAt
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  name         String?
+  password     String?
+  user_profile Userprofile?
+  usertype     Usertype     @default(USER)
+  date_created DateTime?    @default(now())
+  date_updated DateTime?    @updatedAt
 }
 
 model Userprofile {
-  id          Int       @id @default(autoincrement())
-  userId      Int       @unique
-  firstName   String?
-  lastName    String?
-  address     String?
-  user        User      @relation(fields: [userId], references: [id])
-  dateCreated DateTime? @default(now())
-  dateUpdated DateTime? @updatedAt
+  id           Int       @id @default(autoincrement())
+  user_id      Int       @unique
+  first_name   String?
+  last_name    String?
+  address      String?
+  user         User      @relation(fields: [user_id], references: [id])
+  date_created DateTime? @default(now())
+  date_updated DateTime? @updatedAt
+
+  @@unique([first_name, last_name])
 }
 
 model Todo {
@@ -37,4 +40,9 @@ model Todo {
   done        Boolean   @default(false)
   dateCreated DateTime? @default(now())
   dateUpdated DateTime? @updatedAt
+}
+
+enum Usertype {
+  USER
+  ADMIN
 }
